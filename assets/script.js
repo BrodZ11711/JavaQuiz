@@ -5,16 +5,22 @@ const questionContainerElement = document.getElementById('questionContainer')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answerButtons')
 
-/* Creating the variables in order to shuffle the questions */
+/* Time Counter */
+const timeLeftDisplay = document.querySelector('#time-left')
+let timeLeft = 30
 
+/* Creating the variables in order to shuffle the questions */
 let shuffledQuestions, currentQuestionIndex
 /* When the start button is 'clicked', it will run the function startGame */
 startButton.addEventListener('click', startGame)
+startButton.addEventListener('click', countDown)
 
 function  startGame () {
     console.log('The Game... is now afoot!')
     /* When the start button is pressed, it will set the rules and button to hide class, as well as show the next question */
     startButton.classList.add('hide')
+    
+    
     /* This will shuffle the questions, by making it shuffle one way by either going to a positive number, making it go right, or negative number, making it go left. Math.Random with .5, will make it a 50/50 chance of going positive or negative */
     shuffledQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
@@ -22,6 +28,17 @@ function  startGame () {
     questionContainerElement.classList.remove('hide')
     setNextQuestion()
 }
+
+function countDown() {
+    setInterval(function() {
+        if(timeLeft <= 0) {
+            clearInterval(timeLeft =0)
+        }
+        timeLeftDisplay.innerHTML = timeLeft
+        timeLeft -= 1
+    }, 1000) 
+}
+
 
 function setNextQuestion () {
     /* This will reset the answer cards, as to not show the same answers as the previous question */
